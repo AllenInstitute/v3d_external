@@ -694,8 +694,12 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 				neuronColorMode++;
 				neuronColorMode = neuronColorMode%5;
 				updateColorMode(neuronColorMode);
-                //curr_renderer->colorByTypeOnlyMode = !(curr_renderer->colorByTypeOnlyMode); //colorByTypeOnly was eliminated before last release from Mozak crew.
-	
+
+                if (this->view3DWidget)
+                { 
+                    this->view3DWidget->callLoadNewStack();
+                }
+                //curr_renderer->colorByTypeOnlyMode = !(curr_renderer->colorByTypeOnlyMode); //colorByTypeOnly was eliminated before last release from Mozak crew.	
                 break;
             case Qt::Key_E:
                 //This is a very unfortunate workaround to solve an issue where the cursor move calls

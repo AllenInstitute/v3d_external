@@ -148,7 +148,7 @@ bool v3d_imaging(MainWindow* mainwindow, const v3d_imaging_paras & p)
 		QStringList fileList = pluginsDir.entryList(QDir::Files);
 		if (fileList.size()<1)
 		{
-			v3d_msg("Cannot find any file in the ./plugins/smartscope_controller directory!");
+			qDebug("Cannot find any file in the ./plugins/smartscope_controller directory!");
 			return false;
 		}
 		

@@ -1,0 +1,10 @@
+# Changelog
+## 4.0.2.dev0 (2021-02-23)
+==========================
+* Added Changelog file
+* Added Version file
+* Changed a annoying popup window to a debug message
+* Fixed so that user don't have to mouse click on a volume when toggling color on a polyline in Mozak.
+ 
+
+

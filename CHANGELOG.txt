@@ -1,4 +1,8 @@
 # Changelog
+## 4.0.2.dev2 (2021-02-23)
+==========================
+* Fixed (?) 'A' and 'P' shortcut issue.
+
 ## 4.0.2.dev1 (2021-02-23)
 ==========================
 * Added Changelog file

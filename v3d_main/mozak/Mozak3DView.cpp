@@ -601,6 +601,11 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 				//	polyLineAutoZButton->setChecked(true);
 
 //                changeMode(Renderer::smCurveCreate_pointclickAutoZ, true, true);
+                if (this->view3DWidget)
+                {
+                    this->view3DWidget->callLoadNewStack();
+                }
+
                 break;
 			case Qt::Key_D:
 				if (!deleteSegmentsButton->isChecked())
@@ -659,6 +664,12 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 				//if (!polyLineButton->isChecked())
 				//	polyLineButton->setChecked(true);
 				//changeMode(Renderer::smCurveCreate_pointclick, true, true);
+
+                if (this->view3DWidget)
+                {
+                    this->view3DWidget->callLoadNewStack();
+                }
+
                 break;
             case Qt::Key_Y:
                 if (key_evt->modifiers() & Qt::ControlModifier)

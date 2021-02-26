@@ -15,6 +15,7 @@
 **/*.suo
 **/*.pdb
 **/*.obj
+**/*.tds
 **/*.Debug
 **/ipch
 **/*.Release

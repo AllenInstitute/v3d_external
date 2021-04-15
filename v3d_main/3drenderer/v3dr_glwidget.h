@@ -443,6 +443,11 @@ public slots:
     virtual void setEditMode();
     virtual void updateColorMode(int mode);
 
+	// Mozak connected segments fix, MK, Mar 2021
+public:
+	Renderer_gl1* mozakRendererGL1Ptr;
+	void keyNfromMozak3Dview();
+
 #ifdef _NEURON_ASSEMBLER_
 	// Volume cut lock status for fragment tracing, MK, Dec, 2019
 	virtual void getXlockStatus(bool status);

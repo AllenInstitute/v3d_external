@@ -4450,6 +4450,7 @@ void Renderer_gl1::rc_findConnectedSegs(My4DImage* curImg, size_t inputSegID)
 	if (curImg->tracedNeuron.seg[inputSegID].to_be_deleted) return;
 
 	size_t curSegNum = this->subtreeSegs.size();
+	//cout << "Renderer_gl1::rc_findConnectedSegs: " << inputSegID << " - current subtree seg size: " << curSegNum << endl;
 
 	// -- obtaining inputSegID head gridKey and tail gridKey
 	double xLabelTail = curImg->tracedNeuron.seg[inputSegID].row.begin()->x;

@@ -705,6 +705,8 @@ bool CViewer::eventFilter(QObject *object, QEvent *event)
 					thisRenderer->indices.clear();
 					V3DLONG index = thisRenderer->findNearestNeuronNode_WinXY(mouseEvt->x(), mouseEvt->y(), treePtr, dist);
 					this->seg2includedNodeMap.clear();
+					cout << "Img demension: " << this->getXDim() << " " << this->getYDim() << " " << this->getZDim() << endl;
+					cout << "Displaying image demension: " << PDialogProofreading::instance()->sbXlb << " " << PDialogProofreading::instance()->sbXhb << " " << PDialogProofreading::instance()->sbYlb << " " << PDialogProofreading::instance()->sbYhb << " " << PDialogProofreading::instance()->sbZlb << " " << PDialogProofreading::instance()->sbZhb << endl;
 					for (auto& nodeIndex : thisRenderer->indices)
 					{
 						if (treePtr->listNeuron.at(nodeIndex).x < PDialogProofreading::instance()->sbXlb || treePtr->listNeuron.at(nodeIndex).x > PDialogProofreading::instance()->sbXhb ||
@@ -751,6 +753,8 @@ bool CViewer::eventFilter(QObject *object, QEvent *event)
 					thisRenderer->indices.clear();
 					V3DLONG index = thisRenderer->findNearestNeuronNode_WinXY(mouseEvt->x(), mouseEvt->y(), treePtr, dist);			
 					this->seg2includedNodeMap.clear();
+					cout << "Img demension: " << this->getXDim() << " " << this->getYDim() << " " << this->getZDim() << endl;
+					cout << "Displaying image demension: " << PDialogProofreading::instance()->sbXlb << " " << PDialogProofreading::instance()->sbXhb << " " << PDialogProofreading::instance()->sbYlb << " " << PDialogProofreading::instance()->sbYhb << " " << PDialogProofreading::instance()->sbZlb << " " << PDialogProofreading::instance()->sbZhb << endl;
 					for (auto& nodeIndex : thisRenderer->indices)
 					{
 						if (treePtr->listNeuron.at(nodeIndex).x < PDialogProofreading::instance()->sbXlb || treePtr->listNeuron.at(nodeIndex).x > PDialogProofreading::instance()->sbXhb ||
@@ -1471,6 +1475,13 @@ CViewer::newViewer(int x, int y, int z,             //can be either the VOI's ce
 			}
 #endif
         }
+
+		PDialogProofreading::instance()->sbXlb = 1;
+		PDialogProofreading::instance()->sbXhb = dx * 2;
+		PDialogProofreading::instance()->sbYlb = 1;
+		PDialogProofreading::instance()->sbYhb = dy * 2;
+		PDialogProofreading::instance()->sbZlb = 1;
+		PDialogProofreading::instance()->sbZhb = dz * 2;
     }
     catch(RuntimeException &ex)
     {

@@ -263,6 +263,7 @@ NeuronTree readSWC_file(const QString& filename);
 //bool writeSWC_file(const QString& filename, const NeuronTree& nt);
 bool writeSWC_file(const QString& filename, const NeuronTree& nt, const QStringList *infostring=0);
 bool writeESWC_file(const QString& filename, const NeuronTree& nt);
+bool writeSWC_fileNew(const QString& filename, const NeuronTree& nt);
 
 //general operators
 

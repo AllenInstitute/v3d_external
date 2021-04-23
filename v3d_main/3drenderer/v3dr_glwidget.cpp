@@ -4041,7 +4041,7 @@ void V3dR_GLWidget::keyNfromMozak3Dview()
 		for (auto& segID : this->mozakRendererGL1Ptr->subtreeSegs)
 		{
 			this->mozakRendererGL1Ptr->seg2typeMap.insert({ segID, curImg->tracedNeuron.seg[segID].row.begin()->data[1] });
-			for (auto& Vnode : curImg->tracedNeuron.seg[segID].row) Vnode.data[1] = 0;
+			for (auto& Vnode : curImg->tracedNeuron.seg[segID].row) Vnode.data[1] = 11;
 		}
 		curImg->update_3drenderer_neuron_view(this, this->mozakRendererGL1Ptr);
 		this->getRenderer()->showingConnectedSegsMozak = true;

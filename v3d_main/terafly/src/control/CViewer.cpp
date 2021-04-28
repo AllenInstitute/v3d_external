@@ -709,9 +709,13 @@ bool CViewer::eventFilter(QObject *object, QEvent *event)
 					cout << "Displaying image demension: " << PDialogProofreading::instance()->sbXlb << " " << PDialogProofreading::instance()->sbXhb << " " << PDialogProofreading::instance()->sbYlb << " " << PDialogProofreading::instance()->sbYhb << " " << PDialogProofreading::instance()->sbZlb << " " << PDialogProofreading::instance()->sbZhb << endl;
 					for (auto& nodeIndex : thisRenderer->indices)
 					{
-						if (treePtr->listNeuron.at(nodeIndex).x < PDialogProofreading::instance()->sbXlb || treePtr->listNeuron.at(nodeIndex).x > PDialogProofreading::instance()->sbXhb ||
+						/*if (treePtr->listNeuron.at(nodeIndex).x < PDialogProofreading::instance()->sbXlb || treePtr->listNeuron.at(nodeIndex).x > PDialogProofreading::instance()->sbXhb ||
 							treePtr->listNeuron.at(nodeIndex).y < PDialogProofreading::instance()->sbYlb || treePtr->listNeuron.at(nodeIndex).y > PDialogProofreading::instance()->sbYhb ||
-							treePtr->listNeuron.at(nodeIndex).z < PDialogProofreading::instance()->sbZlb || treePtr->listNeuron.at(nodeIndex).z > PDialogProofreading::instance()->sbZhb) continue;
+							treePtr->listNeuron.at(nodeIndex).z < PDialogProofreading::instance()->sbZlb || treePtr->listNeuron.at(nodeIndex).z > PDialogProofreading::instance()->sbZhb) continue;*/
+
+						if (treePtr->listNeuron.at(nodeIndex).x < -128 || treePtr->listNeuron.at(nodeIndex).x > (this->getXDim() + 128) ||
+							treePtr->listNeuron.at(nodeIndex).y < -128 || treePtr->listNeuron.at(nodeIndex).y > (this->getYDim() + 128) ||
+							treePtr->listNeuron.at(nodeIndex).z < -128 || treePtr->listNeuron.at(nodeIndex).z > (this->getZDim() + 128)) continue;
 
 						if (this->seg2includedNodeMap.find(treePtr->listNeuron.at(nodeIndex).seg_id) != this->seg2includedNodeMap.end())
 							this->seg2includedNodeMap[treePtr->listNeuron.at(nodeIndex).seg_id].push_back(treePtr->listNeuron.at(nodeIndex));
@@ -757,9 +761,13 @@ bool CViewer::eventFilter(QObject *object, QEvent *event)
 					cout << "Displaying image demension: " << PDialogProofreading::instance()->sbXlb << " " << PDialogProofreading::instance()->sbXhb << " " << PDialogProofreading::instance()->sbYlb << " " << PDialogProofreading::instance()->sbYhb << " " << PDialogProofreading::instance()->sbZlb << " " << PDialogProofreading::instance()->sbZhb << endl;
 					for (auto& nodeIndex : thisRenderer->indices)
 					{
-						if (treePtr->listNeuron.at(nodeIndex).x < PDialogProofreading::instance()->sbXlb || treePtr->listNeuron.at(nodeIndex).x > PDialogProofreading::instance()->sbXhb ||
+						/*if (treePtr->listNeuron.at(nodeIndex).x < PDialogProofreading::instance()->sbXlb || treePtr->listNeuron.at(nodeIndex).x > PDialogProofreading::instance()->sbXhb ||
 							treePtr->listNeuron.at(nodeIndex).y < PDialogProofreading::instance()->sbYlb || treePtr->listNeuron.at(nodeIndex).y > PDialogProofreading::instance()->sbYhb ||
-							treePtr->listNeuron.at(nodeIndex).z < PDialogProofreading::instance()->sbZlb || treePtr->listNeuron.at(nodeIndex).z > PDialogProofreading::instance()->sbZhb) continue;
+							treePtr->listNeuron.at(nodeIndex).z < PDialogProofreading::instance()->sbZlb || treePtr->listNeuron.at(nodeIndex).z > PDialogProofreading::instance()->sbZhb) continue;*/
+
+						if (treePtr->listNeuron.at(nodeIndex).x < -128 || treePtr->listNeuron.at(nodeIndex).x >(this->getXDim() + 128) ||
+							treePtr->listNeuron.at(nodeIndex).y < -128 || treePtr->listNeuron.at(nodeIndex).y >(this->getYDim() + 128) ||
+							treePtr->listNeuron.at(nodeIndex).z < -128 || treePtr->listNeuron.at(nodeIndex).z >(this->getZDim() + 128)) continue;
 
 						if (this->seg2includedNodeMap.find(treePtr->listNeuron.at(nodeIndex).seg_id) != this->seg2includedNodeMap.end())
 							this->seg2includedNodeMap[treePtr->listNeuron.at(nodeIndex).seg_id].push_back(treePtr->listNeuron.at(nodeIndex));
@@ -1476,12 +1484,12 @@ CViewer::newViewer(int x, int y, int z,             //can be either the VOI's ce
 #endif
         }
 
-		PDialogProofreading::instance()->sbXlb = 1;
+		/*PDialogProofreading::instance()->sbXlb = 1;
 		PDialogProofreading::instance()->sbXhb = dx * 2;
 		PDialogProofreading::instance()->sbYlb = 1;
 		PDialogProofreading::instance()->sbYhb = dy * 2;
 		PDialogProofreading::instance()->sbZlb = 1;
-		PDialogProofreading::instance()->sbZhb = dz * 2;
+		PDialogProofreading::instance()->sbZhb = dz * 2;*/
     }
     catch(RuntimeException &ex)
     {
@@ -2189,6 +2197,12 @@ void CViewer::loadAnnotations() throw (RuntimeException)
     V3D_env->pushObjectIn3DWindow(window);
     view3DWidget->enableMarkerLabel(false);
     view3DWidget->getRenderer()->endSelectMode();
+	/*PDialogProofreading::instance()->sbXlb = coord2local<int>(x_range.start, iim::horizontal, false);
+	PDialogProofreading::instance()->sbXhb = coord2local<int>(x_range.end, iim::horizontal, false);
+	PDialogProofreading::instance()->sbYlb = coord2local<int>(y_range.start, iim::vertical, false);
+	PDialogProofreading::instance()->sbYhb = coord2local<int>(y_range.end, iim::vertical, false);
+	PDialogProofreading::instance()->sbZlb = coord2local<int>(z_range.start, iim::depth, false);
+	PDialogProofreading::instance()->sbZhb = coord2local<int>(z_range.end, iim::depth, false);*/
 
     //end curve editing mode
     QList<NeuronTree>* listNeuronTree = static_cast<Renderer_gl1*>(view3DWidget->getRenderer())->getHandleNeuronTrees();

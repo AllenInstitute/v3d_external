@@ -59,14 +59,14 @@ Peng, H, Ruan, Z., Atasoy, D., and Sternson, S. (2010) “Automatic reconstructi
 #define _ALLOW_NEURONSEG_MENU_
 #define _ALLOW_NEURONTREE_ONE2OTHERS_MENU_
 //#define _ALLOW_NEURONTREE_ONE2ENTIREIMG_MENU_
-#define _ALLOW_3D_CURVE_
+//#define _ALLOW_3D_CURVE_
 
 //#define _IMAGING_MENU_
 
 
 /* ======= Customized Preprocessor Block, MK ======= */
-//#define _YUN_
-//#define _NEURON_ASSEMBLER_
+#define _YUN_
+#define _NEURON_ASSEMBLER_
 //#define _NEURON_ASSEMBLER_DEBUG_
 /* ================================================= */
 

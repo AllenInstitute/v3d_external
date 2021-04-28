@@ -1596,7 +1596,7 @@ QDoubleSpinBox *V3dR_MainWindow::createThicknessSpinBox()
 QSpinBox *V3dR_MainWindow::createMarkerSizeSpinBox()
 {
 	QSpinBox *box = new QSpinBox;
-	box->setRange(1, 100);
+	box->setRange(1, 999);
     //box->setSingleStep(1.0);
     box->setValue(10);
 	box->setPrefix("x");

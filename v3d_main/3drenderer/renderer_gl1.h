@@ -557,6 +557,10 @@ public:
 	 v3dr_SurfaceType surType;
 	 // -----------------------------------------------------------------------------------------------------------------------------------
 
+	 // --------- Change segment type in Mozak while N and V modes are on, MK, May, 2021 --------- //
+	 void retypeMozakDisplay_VNmode(V_NeuronSWC& inputDisplayingSeg, int segID, int newType);
+	 // ------------------------------------------------------------------------------------------ //
+
      // @ADDED by Alessandro on 2015-05-23. Called when "Esc" key is pressed and tracedNeuron must be updated.
      void deleteMultiNeuronsByStrokeCommit();
      // @ADDED by Alessandro on 2015-09-30. Select multiple markers by one-mouse stroke.

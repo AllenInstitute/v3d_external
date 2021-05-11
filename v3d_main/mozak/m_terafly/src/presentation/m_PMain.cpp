@@ -1512,6 +1512,8 @@ void PMain::loadAnnotations()
 ***********************************************************************************/
 void PMain::saveAnnotations()
 {
+	// Note: When there's an editing operation taking place, this method is always called. 
+
     /**/itm::debug(itm::LEV1, 0, __itm__current__function__);
 
     CViewer *cur_win = CViewer::getCurrent();
@@ -1520,7 +1522,7 @@ void PMain::saveAnnotations()
     {
         if(cur_win)
         {
-			if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();
+			if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();	
 
             if(annotationsPathLRU.compare("")==0)
             {

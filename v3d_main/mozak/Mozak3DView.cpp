@@ -117,6 +117,7 @@ void Mozak3DView::performUndo()
 
 	updateUndoLabel();
 
+	if (view3DWidget->getRenderer()->showingConnectedSegsMozak) return;
 	autoSave();  //20170803 RZC
 }
 
@@ -141,6 +142,7 @@ void Mozak3DView::performRedo()
 	}
     updateUndoLabel();
 
+	if (view3DWidget->getRenderer()->showingConnectedSegsMozak) return;
 	autoSave();  //20170803 RZC
 }
 
@@ -160,6 +162,7 @@ void Mozak3DView::onNeuronEdit()
 {
    // teramanager::CViewer::onNeuronEdit();
 
+	if (view3DWidget->getRenderer()->showingConnectedSegsMozak) return;
 	autoSave();  //must called before appendHistory() otherwise redo cannot work
 
 	// makeTracedNeuronsEditable();  //no use
@@ -702,6 +705,7 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
                 }
                 break;
             case Qt::Key_V:
+				if (view3DWidget->getRenderer()->currentMozakSegs.seg.empty()) view3DWidget->getRenderer()->currentMozakSegs = v3dr_getImage4d(view3DWidget->_idep)->tracedNeuron;
 				neuronColorMode++;
 				neuronColorMode = neuronColorMode%3;
 				if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
@@ -714,6 +718,11 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
                 //curr_renderer->colorByTypeOnlyMode = !(curr_renderer->colorByTypeOnlyMode); //colorByTypeOnly was eliminated before last release from Mozak crew.	
                 break;
 			case Qt::Key_N:
+				if (neuronColorMode > 0)
+				{
+					neuronColorMode = 0;
+					updateColorMode(neuronColorMode);
+				}
 				view3DWidget->mozakRendererGL1Ptr = static_cast<Renderer_gl1*>(view3DWidget->getRenderer());
 				view3DWidget->keyNfromMozak3Dview();
 				if (this->view3DWidget)

@@ -123,6 +123,7 @@ public:
 
 	bool showingConnectedSegsMozak;
 	V_NeuronSWC_list currentMozakSegs;
+	V_NeuronSWC_list mozakVmodeSegs;
 
 public:
 // link to Data (volume & surface)

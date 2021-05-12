@@ -708,9 +708,9 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 				if (view3DWidget->getRenderer()->currentMozakSegs.seg.empty()) view3DWidget->getRenderer()->currentMozakSegs = v3dr_getImage4d(view3DWidget->_idep)->tracedNeuron;
 				neuronColorMode++;
 				neuronColorMode = neuronColorMode%3;
-				if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
+				if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview(); // If N mode is on, it needs to restore segments back to original state first. 
 				updateColorMode(neuronColorMode);
-
+				view3DWidget->getRenderer()->mozakVmodeSegs = v3dr_getImage4d(view3DWidget->_idep)->tracedNeuron;
                 if (this->view3DWidget)
                 { 
                     this->view3DWidget->callLoadNewStack();
@@ -718,11 +718,11 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
                 //curr_renderer->colorByTypeOnlyMode = !(curr_renderer->colorByTypeOnlyMode); //colorByTypeOnly was eliminated before last release from Mozak crew.	
                 break;
 			case Qt::Key_N:
-				if (neuronColorMode > 0)
+				/*if (neuronColorMode > 0)
 				{
 					neuronColorMode = 0;
 					updateColorMode(neuronColorMode);
-				}
+				}*/
 				view3DWidget->mozakRendererGL1Ptr = static_cast<Renderer_gl1*>(view3DWidget->getRenderer());
 				view3DWidget->keyNfromMozak3Dview();
 				if (this->view3DWidget)

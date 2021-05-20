@@ -121,6 +121,9 @@ public:
         void drawString(float x, float y, float z, const char* text, int shadow=0, int fontsize=0);
 	bool beStill();
 
+	bool showingConnectedSegsMozak;
+	V_NeuronSWC_list currentMozakSegs;
+
 public:
 // link to Data (volume & surface)
 	virtual void setupData(void* data) {};
@@ -409,6 +412,8 @@ private:
         editinput=0;
         neuronColorMode=0;
         dispConfLevel=INT_MAX;
+
+		this->showingConnectedSegsMozak = false;
 	}
 
 };

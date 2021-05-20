@@ -645,6 +645,7 @@ bool CViewer::eventFilter(QObject *object, QEvent *event)
         ***************************************************************************/
         if (object == view3DWidget && event->type() == QEvent::MouseButtonDblClick)
         {
+			if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
             if(PMain::getInstance()->isPRactive())
             {
                 QMessageBox::information(this->window3D, "Warning", "TeraFly is running in \"Proofreading\" mode. All TeraFly's' navigation features are disabled. "

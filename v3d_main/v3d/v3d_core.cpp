@@ -2152,8 +2152,6 @@ void XFormView::do_keyPressEvent(QKeyEvent * e)  //by PHC, rename to do_keyPress
 				update();
 		    }
 			break;
-
-		case Qt::Key_N:
 		case Qt::Key_Period: //080403
 			switch (Ptype)
 		{
@@ -3459,7 +3457,6 @@ void XFormWidget::keyPressEvent(QKeyEvent * e)
 //		    }
 //			break;
 //
-//		case Qt::Key_N:
 //		case Qt::Key_Period: //080403
 //			switch (Ptype)
 //		{

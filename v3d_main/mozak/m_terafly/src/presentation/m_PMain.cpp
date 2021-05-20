@@ -1520,6 +1520,8 @@ void PMain::saveAnnotations()
     {
         if(cur_win)
         {
+			if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();
+
             if(annotationsPathLRU.compare("")==0)
             {
                 saveAnnotationsAs();
@@ -1557,6 +1559,8 @@ void PMain::saveAnnotationsAs()
     {
         if(cur_win)
         {
+			if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();
+
             //obtaining current volume's parent folder path
             QDir dir(CImport::instance()->getPath().c_str());
             dir.cdUp();

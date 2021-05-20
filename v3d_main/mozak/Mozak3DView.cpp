@@ -59,7 +59,6 @@ Mozak3DView::Mozak3DView(V3DPluginCallback2 *_V3D_env, int _resIndex, itm::uint8
 	minGridSpacing = 100;
 	maxGridSpacing = 5000;
 	setGrid(-1);
-	
 }
 
 teramanager::CViewer* Mozak3DView::makeView(V3DPluginCallback2 *_V3D_env, int _resIndex, itm::uint8 *_imgData, int _volV0, int _volV1,
@@ -433,6 +432,7 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
             // Disable resolution change during polyline to ignore unintentional double right clicks
 			if (currentMode == Renderer::smCurveCreate_pointclick) return false;
 
+			if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
 			// Determine whether we need to go to a previous (lower) resolution when zooming out
 			while (lowerResViews.length() > 0)
 			{
@@ -601,6 +601,11 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 				//	polyLineAutoZButton->setChecked(true);
 
 //                changeMode(Renderer::smCurveCreate_pointclickAutoZ, true, true);
+                if (this->view3DWidget)
+                {
+                    this->view3DWidget->callLoadNewStack();
+                }
+
                 break;
 			case Qt::Key_D:
 				if (!deleteSegmentsButton->isChecked())
@@ -659,6 +664,12 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 				//if (!polyLineButton->isChecked())
 				//	polyLineButton->setChecked(true);
 				//changeMode(Renderer::smCurveCreate_pointclick, true, true);
+
+                if (this->view3DWidget)
+                {
+                    this->view3DWidget->callLoadNewStack();
+                }
+
                 break;
             case Qt::Key_Y:
                 if (key_evt->modifiers() & Qt::ControlModifier)
@@ -692,11 +703,24 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
                 break;
             case Qt::Key_V:
 				neuronColorMode++;
-				neuronColorMode = neuronColorMode%5;
+				neuronColorMode = neuronColorMode%3;
+				if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
 				updateColorMode(neuronColorMode);
-                //curr_renderer->colorByTypeOnlyMode = !(curr_renderer->colorByTypeOnlyMode); //colorByTypeOnly was eliminated before last release from Mozak crew.
-	
+
+                if (this->view3DWidget)
+                { 
+                    this->view3DWidget->callLoadNewStack();
+                }
+                //curr_renderer->colorByTypeOnlyMode = !(curr_renderer->colorByTypeOnlyMode); //colorByTypeOnly was eliminated before last release from Mozak crew.	
                 break;
+			case Qt::Key_N:
+				view3DWidget->mozakRendererGL1Ptr = static_cast<Renderer_gl1*>(view3DWidget->getRenderer());
+				view3DWidget->keyNfromMozak3Dview();
+				if (this->view3DWidget)
+				{
+					this->view3DWidget->callLoadNewStack();
+				}
+				break;
             case Qt::Key_E:
                 //This is a very unfortunate workaround to solve an issue where the cursor move calls
                 //stop happening at times even when setMouseTracking is enabled.
@@ -941,18 +965,22 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
                     MozakUI* moz = MozakUI::getMozakInstance();
                     if (curr_renderer->iPosXTranslateArrowEnabled == 2)
                     {
+						if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
                         moz->traslXposClicked();
                     }
                     else if (curr_renderer->iNegXTranslateArrowEnabled == 2)
                     {
+						if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
                         moz->traslXnegClicked();
                     }
                     else if (curr_renderer->iPosYTranslateArrowEnabled == 2)
                     {
+						if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
                         moz->traslYposClicked();
                     }
                     else if (curr_renderer->iNegYTranslateArrowEnabled == 2)
                     {
+						if (view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->keyNfromMozak3Dview();
                         moz->traslYnegClicked();
                     }
                 }

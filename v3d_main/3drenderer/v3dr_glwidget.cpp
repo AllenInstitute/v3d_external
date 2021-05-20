@@ -3997,6 +3997,68 @@ void V3dR_GLWidget::subtreeHighlightModeMonitor()
 	}
 }
 
+void V3dR_GLWidget::keyNfromMozak3Dview()
+{
+	//Renderer_gl1* thisRenderer = static_cast<Renderer_gl1*>(this->getRenderer());
+	My4DImage* curImg = v3dr_getImage4d(_idep);
+	this->mozakRendererGL1Ptr->wholeGrid2segIDmap.clear();
+	this->mozakRendererGL1Ptr->seg2GridMapping(curImg);
+
+	if (!this->getRenderer()->showingConnectedSegsMozak)
+	{
+		this->getRenderer()->currentMozakSegs = curImg->tracedNeuron;
+
+		size_t inputSegID;
+		V_NeuronSWC_unit rootNodeV;
+		int rootNodeID;
+		for (vector<V_NeuronSWC>::iterator segIt = curImg->tracedNeuron.seg.begin(); segIt != curImg->tracedNeuron.seg.end(); ++segIt)
+		{
+			for (auto& Vnode : segIt->row)
+			{
+				if (Vnode.data[1] == 1)
+				{
+					inputSegID = size_t(segIt - curImg->tracedNeuron.seg.begin());
+					rootNodeV = Vnode;
+					this->mozakRendererGL1Ptr->somaSegID = inputSegID;
+					goto MOZAK_CONNECTED_MAP_SOMA_FOUND;
+				}
+			}
+		}
+		v3d_msg("Soma node not found.");
+		return;
+
+	MOZAK_CONNECTED_MAP_SOMA_FOUND:
+		this->mozakRendererGL1Ptr->segEnd2SegIDmapping(curImg);
+		//for (auto& segEnd : thisRenderer->segEnd2segIDmap) cout << segEnd.first << " " << segEnd.second << endl;
+
+		this->mozakRendererGL1Ptr->subtreeSegs.clear();
+		this->mozakRendererGL1Ptr->subtreeSegs.insert(inputSegID);
+		this->mozakRendererGL1Ptr->rc_findConnectedSegs(curImg, inputSegID);
+		//for (auto& segID : thisRenderer->subtreeSegs) cout << segID << " ";
+		//cout << endl;
+
+		this->mozakRendererGL1Ptr->seg2typeMap.clear();
+		for (auto& segID : this->mozakRendererGL1Ptr->subtreeSegs)
+		{
+			this->mozakRendererGL1Ptr->seg2typeMap.insert({ segID, curImg->tracedNeuron.seg[segID].row.begin()->data[1] });
+			for (auto& Vnode : curImg->tracedNeuron.seg[segID].row) Vnode.data[1] = 0;
+		}
+		curImg->update_3drenderer_neuron_view(this, this->mozakRendererGL1Ptr);
+		this->getRenderer()->showingConnectedSegsMozak = true;
+	}
+	else
+	{
+		//for (auto& segType : this->mozakRendererGL1Ptr->seg2typeMap)
+		//{
+		//	for (auto& Vnode : curImg->tracedNeuron.seg[segType.first].row) Vnode.data[1] = segType.second;
+		//}
+		curImg->tracedNeuron = this->getRenderer()->currentMozakSegs;
+		(curImg->tracedNeuron.seg[this->mozakRendererGL1Ptr->somaSegID].row.end() - 1)->data[1] = 1;
+		curImg->update_3drenderer_neuron_view(this, this->mozakRendererGL1Ptr);
+		this->getRenderer()->showingConnectedSegsMozak = false;
+	}
+}
+
 void V3dR_GLWidget::callDefine3DPolyline()
 {
     if (renderer && _idep && v3dr_getImage4d(_idep))

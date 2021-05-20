@@ -1536,6 +1536,7 @@ void Renderer_gl1::saveNeuronTree(int kk, const QString& filename) //kk is the c
 		qDebug()<< "Invalid tree index number in saveNeuronTree()";
 		return;
 	}
+	writeSWC_file(filename, listNeuronTree[kk]);
 #ifndef test_main_cpp
     writeESWC_file(filename, listNeuronTree[kk]); //save eswc format instead of swc format by ZZ, 02282019
 #endif

@@ -16,11 +16,14 @@ int Mozak3DView::contrastValue = 0;
 Mozak3DView::Mozak3DView(V3DPluginCallback2 *_V3D_env, int _resIndex, itm::uint8 *_imgData, int _volV0, int _volV1,
 	int _volH0, int _volH1, int _volD0, int _volD1, int _volT0, int _volT1, int _nchannels, itm::CViewer *_prev, int _slidingViewerBlockID)
 		: teramanager::CViewer(_V3D_env, _resIndex, _imgData, _volV0, _volV1,
-        _volH0, _volH1, _volD0, _volD1, _volT0, _volT1, _nchannels, _prev, _slidingViewerBlockID), mHotKeysEnabled(true), mHotKeysAfterMozakEnabled(true)
+        _volH0, _volH1, _volD0, _volD1, _volT0, _volT1, _nchannels, _prev, _slidingViewerBlockID), mHotKeysEnabled(true), mHotKeysAfterMozakEnabled(false)
 {
 	//170729 RZC: to fix crash of calling updateUndoLabel() in appendHistory() when starting
 	currUndoLabel = 0; buttonUndo = buttonRedo = 0;
-
+    
+    //TK: not sure why these, hotkey booleans, are not set properly in the ctor above??
+    mHotKeysEnabled = true;
+    mHotKeysAfterMozakEnabled = false;
 	nextImg = 0;
     prevZCutMin = -1;
     prevZCutMax = -1;

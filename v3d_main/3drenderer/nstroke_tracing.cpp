@@ -6686,7 +6686,8 @@ void Renderer_gl1::retypeMultiNeuronsByStroke()
 										change_type_in_seg_of_V_NeuronSWC_list(curImg->tracedNeuron, p_listneuron->at(i).seg_id, node_type); // Mozak's retyping routine goes here, MK, May, 2021.
 										//cout << "selected segment ID in N mode: " << p_listneuron->at(i).seg_id << endl;
 										//cout << "node type = " << node_type << endl;
-										this->retypeMozakDisplay_VNmode(curImg->tracedNeuron.seg[p_listneuron->at(i).seg_id], p_listneuron->at(i).seg_id, node_type);
+										if (this->ui3dviewMode == Mozak)
+											this->retypeMozakDisplay_VNmode(curImg->tracedNeuron.seg[p_listneuron->at(i).seg_id], p_listneuron->at(i).seg_id, node_type);
 									}
 								}
 								else
@@ -6694,7 +6695,8 @@ void Renderer_gl1::retypeMultiNeuronsByStroke()
 									change_level_in_seg_of_V_NeuronSWC_list(curImg->tracedNeuron, p_listneuron->at(i).seg_id, node_level);
 									//cout << "selected segment ID in V mode " << neuronColorMode << ": " << p_listneuron->at(i).seg_id << endl;
 									//cout << "node type = " << node_type << endl;
-									this->retypeMozakDisplay_VNmode(curImg->tracedNeuron.seg[p_listneuron->at(i).seg_id], p_listneuron->at(i).seg_id, node_type);
+									if (this->ui3dviewMode == Mozak)
+										this->retypeMozakDisplay_VNmode(curImg->tracedNeuron.seg[p_listneuron->at(i).seg_id], p_listneuron->at(i).seg_id, node_type);
 								}
                                 break;   // found intersection with neuron segment: no more need to continue on this inner loop
                             }

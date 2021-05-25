@@ -651,6 +651,11 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 					Renderer_gl1* overviewRenderer =(Renderer_gl1*)( moz->V3D_env->find3DViewerByName("Overview")->getGLWidget()->getRenderer());
 					overviewRenderer->showingGrid = !overviewRenderer->showingGrid ;
 				}
+
+                if (this->view3DWidget)
+                {
+                    this->view3DWidget->callLoadNewStack();
+                }
 				break;
 			case Qt::Key_O:
 				// toggle reconstruction entirely on and off

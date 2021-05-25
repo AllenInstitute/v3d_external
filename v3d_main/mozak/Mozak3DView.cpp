@@ -1380,8 +1380,8 @@ void Mozak3DView::clearAnnotations() throw (itm::RuntimeException)
 }
 
 
-const char *typeNamesRow1[] = { "??", "soma", "axon", "dendrite", "apical", "fork", "end", "FixIt!", "FixIt!", "FixIt! " };
-const char *typeNamesRow2[] = { " ", " ", " ", " ", "dendrite", "point", "point", "Axon", "dendrite", " ?? " };
+const char *typeNamesRow1[] = { "??", "soma", "axon", "dendrite", "apical", "fork", "end", "FixIt!", "FixIt!", "FixIt! ", "unknown", "connected" }; // Add 2 more elements to avoid access violation in the function below, May, 2021, MK
+const char *typeNamesRow2[] = { " ", " ", " ", " ", "dendrite", "point", "point", "Axon", "dendrite", " ?? ", "unknown", "connected" };             // Add 2 more elements to avoid access violation in the function below, May, 2021, MK    
 
 void Mozak3DView::updateTypeLabel() // TODO: make any type changes emit a SIGNAL that this SLOT could listen to
 {
@@ -1393,6 +1393,7 @@ void Mozak3DView::updateTypeLabel() // TODO: make any type changes emit a SIGNAL
 		else
 			initialTraceType = curr_renderer->currentTraceType;
 	}
+	cout << "initialTraceType: " << initialTraceType << endl;
 	if (currTypeLabel){
 		currTypeLabel->setText(QString("Type:\n").append(typeNamesRow1[initialTraceType]).append("\n").append(typeNamesRow2[initialTraceType]));
 	}

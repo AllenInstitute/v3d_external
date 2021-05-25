@@ -4052,7 +4052,11 @@ void V3dR_GLWidget::keyNfromMozak3Dview()
 		//{
 		//	for (auto& Vnode : curImg->tracedNeuron.seg[segType.first].row) Vnode.data[1] = segType.second;
 		//}
-		if (neuronColorMode == 0) curImg->tracedNeuron = this->getRenderer()->currentMozakSegs;
+		if (neuronColorMode == 0)
+		{
+			for (int i = 0; i < this->getRenderer()->currentMozakSegs.seg.size(); ++i) curImg->tracedNeuron.seg[i] = this->getRenderer()->currentMozakSegs.seg[i];
+			//curImg->tracedNeuron = this->getRenderer()->currentMozakSegs;
+		}
 		else curImg->tracedNeuron = this->getRenderer()->mozakVmodeSegs; 
 
 		(curImg->tracedNeuron.seg[this->mozakRendererGL1Ptr->somaSegID].row.end() - 1)->data[1] = 1;

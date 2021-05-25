@@ -10,5 +10,3 @@
 * Changed a annoying popup window to a debug message
 * Fixed so that user don't have to mouse click on a volume when toggling color on a polyline in Mozak.
  
-
-============

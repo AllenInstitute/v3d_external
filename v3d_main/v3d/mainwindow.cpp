@@ -2168,7 +2168,7 @@ void MainWindow::updateProcessingMenu()
 
 #ifdef __ALLOW_VR_FUNCS__
 #define __MENU_OPEN_MOZAK__
-    QAction* open_mozak_action = new QAction(tr("Kazom's Mozak"), this);
+    QAction* open_mozak_action = new QAction(tr("Mozak"), this);
     advancedProcMenu->addAction(open_mozak_action);  /// RZC 20070620: move menu entry proc_terafly_menu form to advancedProcMenu
     connect(open_mozak_action, SIGNAL(triggered()), this, SLOT(func_open_neuron_game()));
 #endif

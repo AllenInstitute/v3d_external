@@ -4004,6 +4004,15 @@ void V3dR_GLWidget::keyNfromMozak3Dview()
 	this->mozakRendererGL1Ptr->wholeGrid2segIDmap.clear();
 	this->mozakRendererGL1Ptr->seg2GridMapping(curImg);
 
+	for (vector<V_NeuronSWC>::iterator segIt = curImg->tracedNeuron.seg.begin(); segIt != curImg->tracedNeuron.seg.end(); ++segIt)
+	{
+		if (segIt->row.begin()->data[1] == 11)
+		{
+			this->getRenderer()->showingConnectedSegsMozak = true;
+			break;
+		}
+	}
+
 	if (!this->getRenderer()->showingConnectedSegsMozak)
 	{
 		this->getRenderer()->currentMozakSegs = curImg->tracedNeuron;

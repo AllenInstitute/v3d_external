@@ -511,7 +511,7 @@ class teramanager::PMain : public QWidget
         void showDialogGenerateTimeSeriesReplication();
         void showAnoOctree();
 
-
+		void restoreFromN();
 
 
     signals:

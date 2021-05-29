@@ -165,7 +165,11 @@ void Mozak3DView::onNeuronEdit()
 {
    // teramanager::CViewer::onNeuronEdit();
 
-	if (view3DWidget->getRenderer()->showingConnectedSegsMozak) return;
+	/*if (view3DWidget->getRenderer()->showingConnectedSegsMozak)
+	{
+		appendHistory();
+		return;
+	}*/
 	autoSave();  //must called before appendHistory() otherwise redo cannot work
 
 	// makeTracedNeuronsEditable();  //no use

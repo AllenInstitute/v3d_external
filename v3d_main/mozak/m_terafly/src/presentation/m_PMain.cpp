@@ -186,7 +186,9 @@ PMain::PMain(V3DPluginCallback2 *callback, QWidget *parent) : QWidget(parent)
     connect(closeVolumeAction, SIGNAL(triggered()), this, SLOT(closeVolume()));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(exit()));
     connect(loadAnnotationsAction, SIGNAL(triggered()), this, SLOT(loadAnnotations()));
+	connect(saveAnnotationsAction, SIGNAL(triggered()), this, SLOT(restoreFromN()));
     connect(saveAnnotationsAction, SIGNAL(triggered()), this, SLOT(saveAnnotations()));
+	connect(saveAnnotationsAsAction, SIGNAL(triggered()), this, SLOT(restoreFromN()));
     connect(saveAnnotationsAsAction, SIGNAL(triggered()), this, SLOT(saveAnnotationsAs()));
     connect(clearAnnotationsAction, SIGNAL(triggered()), this, SLOT(clearAnnotations()));
     fileMenu->addAction(openTeraFlyVolumeAction);
@@ -1522,8 +1524,6 @@ void PMain::saveAnnotations()
     {
         if(cur_win)
         {
-			if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();	
-
             if(annotationsPathLRU.compare("")==0)
             {
                 saveAnnotationsAs();
@@ -1561,8 +1561,6 @@ void PMain::saveAnnotationsAs()
     {
         if(cur_win)
         {
-			if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();
-
             //obtaining current volume's parent folder path
             QDir dir(CImport::instance()->getPath().c_str());
             dir.cdUp();
@@ -3256,4 +3254,10 @@ void PMain::showAnoOctree()
 void PMain::tabIndexChanged(int value)
 {
     helpBox->setVisible(value == 0);
+}
+
+void PMain::restoreFromN()
+{
+	CViewer *cur_win = CViewer::getCurrent();
+	if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();	
 }

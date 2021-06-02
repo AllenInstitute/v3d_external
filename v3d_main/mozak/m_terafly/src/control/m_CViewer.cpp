@@ -89,7 +89,7 @@ void CViewer::show()
         if(!view3DWidget->getiDrawExternalParameter())
             QMessageBox::critical(pMain,QObject::tr("Error"), QObject::tr("Unable to get iDrawExternalParameter from Vaa3D's V3dR_GLWidget"),QObject::tr("Ok"));
         window3D = view3DWidget->getiDrawExternalParameter()->window3D;
-
+		
 
         // disable progress bar (for faster 3D viewer updates)
         view3DWidget->setShowProgressBar(false);
@@ -363,6 +363,9 @@ void CViewer::show()
         PLog::instance()->appendOperation(new NewViewerOperation(QString("Opened view ").append(title.c_str()).toStdString(), itm::GPU, timer.elapsed()));
     else
         PLog::instance()->appendOperation(new ImportOperation( "Opened first viewer", itm::GPU, timer.elapsed()));
+
+	view3DWidget->seg2typeMap.clear();
+	view3DWidget->mozakRendererGL1Ptr = static_cast<Renderer_gl1*>(view3DWidget->getRenderer());
 }
 
 CViewer::CViewer(V3DPluginCallback2 *_V3D_env, int _resIndex, itm::uint8 *_imgData, int _volV0, int _volV1,

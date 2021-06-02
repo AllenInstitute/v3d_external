@@ -99,6 +99,13 @@ void Mozak3DView::appendHistory()
 
 void Mozak3DView::performUndo()
 {
+	if (!view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->saveCurrentVsegsCopy();
+	else
+	{
+		v3d_msg("Please exit N mode first.");
+		return;
+	}
+
     cur_history--;
     if (undoRedoHistory.size() == 0 || cur_history < 0) {
         qDebug() << "Undo aborted: undoRedoHistory.size()=" << undoRedoHistory.size() << " cur_history=" << cur_history;
@@ -120,12 +127,17 @@ void Mozak3DView::performUndo()
 
 	updateUndoLabel();
 
+	cout << "N mode: " << view3DWidget->getRenderer()->showingConnectedSegsMozak << endl;
 	if (view3DWidget->getRenderer()->showingConnectedSegsMozak) return;
+	else view3DWidget->ensureNoffWhenUndo();
+
 	autoSave();  //20170803 RZC
 }
 
 void Mozak3DView::performRedo()
 {
+	//if (!view3DWidget->getRenderer()->showingConnectedSegsMozak) view3DWidget->saveCurrentVsegsCopy();
+
     cur_history++;
 	if (undoRedoHistory.size() < 1 || cur_history >= undoRedoHistory.size())
 	{
@@ -145,7 +157,10 @@ void Mozak3DView::performRedo()
 	}
     updateUndoLabel();
 
+	cout << "N mode: " << view3DWidget->getRenderer()->showingConnectedSegsMozak << endl;
 	if (view3DWidget->getRenderer()->showingConnectedSegsMozak) return;
+	else view3DWidget->ensureNoffWhenUndo();
+
 	autoSave();  //20170803 RZC
 }
 
@@ -165,11 +180,6 @@ void Mozak3DView::onNeuronEdit()
 {
    // teramanager::CViewer::onNeuronEdit();
 
-	/*if (view3DWidget->getRenderer()->showingConnectedSegsMozak)
-	{
-		appendHistory();
-		return;
-	}*/
 	autoSave();  //must called before appendHistory() otherwise redo cannot work
 
 	// makeTracedNeuronsEditable();  //no use
@@ -735,7 +745,6 @@ bool Mozak3DView::eventFilter(QObject *object, QEvent *event)
 					neuronColorMode = 0;
 					updateColorMode(neuronColorMode);
 				}*/
-				view3DWidget->mozakRendererGL1Ptr = static_cast<Renderer_gl1*>(view3DWidget->getRenderer());
 				view3DWidget->keyNfromMozak3Dview();
 				if (this->view3DWidget)
 				{

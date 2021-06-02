@@ -445,8 +445,16 @@ public slots:
 
 	// Mozak connected segments fix, MK, Mar 2021
 public:
+	size_t somaSegID;
+	//bool showingConnectedSegsMozak;
+	map<size_t, int> seg2typeMap;
+	V_NeuronSWC_list currentSegCopy;
+	void saveCurrentVsegsCopy();
+
 	Renderer_gl1* mozakRendererGL1Ptr;
+
 	void keyNfromMozak3Dview();
+	void ensureNoffWhenUndo();
 
 #ifdef _NEURON_ASSEMBLER_
 	// Volume cut lock status for fragment tracing, MK, Dec, 2019

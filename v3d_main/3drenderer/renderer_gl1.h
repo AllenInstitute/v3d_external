@@ -232,9 +232,6 @@ public:
     virtual void toggleEditMode();
     virtual void setEditMode();
 
-	size_t somaSegID;
-	//bool showingConnectedSegsMozak;
-	map<size_t, int> seg2typeMap;
 	void callShowConnectedSegsMozak();
 
 // process Object hit ///////////////////////////////////////////////////////////////////////////////////////

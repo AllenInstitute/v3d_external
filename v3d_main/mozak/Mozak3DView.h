@@ -371,7 +371,6 @@ class mozak::Mozak3DView : protected teramanager::CViewer
                 qint64 elapsed_time = 0,            // elapsed time (optional)
                 QString op_dsc="",                  // operation descriptor (optional)
                 int step=0);                        // step number (optional)
-
 };
 
 #endif

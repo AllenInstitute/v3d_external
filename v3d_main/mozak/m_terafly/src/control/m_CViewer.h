@@ -379,7 +379,6 @@ class teramanager::CViewer : public QWidget
         friend class QUndoMarkerDeleteROI;
         friend class QUndoVaa3DNeuron;
 
-
     public slots:
 
         /*********************************************************************************

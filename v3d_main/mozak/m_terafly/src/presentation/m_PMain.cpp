@@ -3256,7 +3256,7 @@ void PMain::tabIndexChanged(int value)
     helpBox->setVisible(value == 0);
 }
 
-void PMain::restoreFromN()
+void PMain::restoreFromN() // When "save annotation" and "save annotation as" icons are hit, force N to be deactivated.
 {
 	CViewer *cur_win = CViewer::getCurrent();
 	if (cur_win->view3DWidget->getRenderer()->showingConnectedSegsMozak) cur_win->view3DWidget->keyNfromMozak3Dview();	

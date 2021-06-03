@@ -2431,10 +2431,6 @@ int Renderer_gl1::movePen(int x, int y, bool b_move)
             }
             else if (selectMode == smRetypeMultiNeurons)
             {
-				if (this->showingConnectedSegsMozak)
-				{
-					
-				}
                 retypeMultiNeuronsByStroke();
             }
             else if (selectMode == smBreakMultiNeurons)

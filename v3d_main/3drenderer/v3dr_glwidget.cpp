@@ -714,6 +714,26 @@ void V3dR_GLWidget::mouseReleaseEvent(QMouseEvent *event)
 
 		POST_updateGL(); //update display of curve
     }
+
+	if (this->getRenderer()->showingConnectedSegsMozak)
+	{
+		My4DImage* curImg = v3dr_getImage4d(_idep);
+		this->mozakRendererGL1Ptr->wholeGrid2segIDmap.clear();
+		this->mozakRendererGL1Ptr->seg2GridMapping(curImg);
+		this->mozakRendererGL1Ptr->segEnd2SegIDmapping(curImg);
+		//for (auto& segEnd : thisRenderer->segEnd2segIDmap) cout << segEnd.first << " " << segEnd.second << endl;
+
+		this->mozakRendererGL1Ptr->subtreeSegs.clear();
+		this->mozakRendererGL1Ptr->subtreeSegs.insert(this->somaSegID);
+		this->mozakRendererGL1Ptr->rc_findConnectedSegs(curImg, this->somaSegID);
+
+		for (auto& segID : this->mozakRendererGL1Ptr->subtreeSegs)
+		{
+			this->seg2typeMap.insert({ segID, curImg->tracedNeuron.seg[segID].row.begin()->data[1] });
+			for (auto& Vnode : curImg->tracedNeuron.seg[segID].row) Vnode.data[1] = 11;
+		}
+		curImg->update_3drenderer_neuron_view(this, this->mozakRendererGL1Ptr);
+	}
 }
 
 void V3dR_GLWidget::mouseMoveEvent(QMouseEvent *event)

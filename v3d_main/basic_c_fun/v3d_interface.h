@@ -246,7 +246,9 @@ public:
 
     virtual bool setImageTeraFly(size_t x, size_t y, size_t z) = 0;
 
+	virtual void setBrainAtlasStatus(V3dR_MainWindow* window, bool on_off) = 0;
 	virtual int setSWC_noDecompose(V3dR_MainWindow* window, const char* fileName) = 0;
+	virtual int addRegion_brainAtlas(V3dR_MainWindow* window, const NeuronTree& region) = 0;
 	virtual bool hideSWC(V3dR_MainWindow* window, int treeIndex) = 0;
 	virtual bool displaySWC(V3dR_MainWindow* window, int treeIndex) = 0;
 	virtual QList<NeuronTree> loadedNeurons(V3dR_MainWindow* window, QList<string>& loadedSurfaces) = 0;

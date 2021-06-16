@@ -535,6 +535,7 @@ public:	//2009-2010: used by V3D_PluginLoader 	// in mainwindow_interface.cpp
 	bool setGlobalSetting( V3D_GlobalSetting &gs );
 
 	int setSWC_noDecompose(V3dR_MainWindow* window, const char* fileName);
+	int addRegion_brainAtlas(V3dR_MainWindow* window, const NeuronTree& region);
 	bool hideSWC(V3dR_MainWindow* window, int treeIndex);
 	bool displaySWC(V3dR_MainWindow* window, int treeIndex);
 	QList<NeuronTree> loadedNeurons(V3dR_MainWindow* window, QList<string>& loadedSurfaces);

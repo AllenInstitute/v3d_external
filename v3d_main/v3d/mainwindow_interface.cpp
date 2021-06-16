@@ -248,6 +248,17 @@ bool MainWindow::setSWC(void* window, NeuronTree & nt)
 	else return false;
 }
 
+int MainWindow::addRegion_brainAtlas(V3dR_MainWindow* window, const NeuronTree& region)
+{
+	V3dR_GLWidget* thisWidget = window->getGLWidget();
+	Renderer_gl1* thisRenderer = static_cast<Renderer_gl1*>(thisWidget->getRenderer());	
+	thisRenderer->listNeuronTree.append(region);
+	(thisRenderer->listNeuronTree.end() - 1)->on = true;
+	thisRenderer->updateBoundingBox();
+	thisWidget->surfaceSelectTab(stNeuronStructure - 1);
+	return thisRenderer->listNeuronTree.size() - 1;
+}
+
 int MainWindow::setSWC_noDecompose(V3dR_MainWindow* window, const char* fileName)
 {
 	V3dR_GLWidget* thisWidget = window->getGLWidget();

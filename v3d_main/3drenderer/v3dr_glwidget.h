@@ -463,6 +463,10 @@ public:
 	virtual void getZlockStatus(bool status);
 #endif
 
+	// Brain Atlas, June, 2021, MK
+	bool brainAtlasStatus;
+	void brainAtlasMouseClick(int clickX, int clickY);
+
 //----------------------------------------------------------------------------------------
 // end View3DControl interface
 //----------------------------------------------------------------------------------------

@@ -136,6 +136,7 @@ V3dR_GLWidget::V3dR_GLWidget(iDrawExternalParameter* idep, QWidget* mainWindow, 
 	this->data_title = title;
 	this->renderer = 0;
     this->show_progress_bar = true;
+	this->brainAtlasStatus = false;
 
 	///////////////////////////////////////////////////////////////
 	init_members();
@@ -691,11 +692,56 @@ void V3dR_GLWidget::mousePressEvent(QMouseEvent *event)
 
 	if (event->button()==Qt::RightButton && renderer) //right-click
 	{
-		if (renderer->hitPoint(event->x(), event->y()))  //pop-up menu (selectObj) or marker definition (hitPen)
+		if (this->brainAtlasStatus) this->brainAtlasMouseClick(event->x(), event->y());
+		else
 		{
-			updateTool();
+			if (renderer->hitPoint(event->x(), event->y()))  //pop-up menu (selectObj) or marker definition (hitPen)
+			{
+				updateTool();
+			}
+			POST_updateGL(); //display result after menu
 		}
-		POST_updateGL(); //display result after menu
+	}
+}
+
+void V3dR_GLWidget::brainAtlasMouseClick(int clickX, int clickY)
+{
+	Renderer_gl1* thisRenderer = static_cast<Renderer_gl1*>(this->getRenderer());
+	bool recon2Region = false;
+	map<double, string> distRegionNameMap;
+	for (QList<NeuronTree>::iterator treeIt = thisRenderer->listNeuronTree.begin(); treeIt != thisRenderer->listNeuronTree.end(); ++treeIt)
+	{
+		if (treeIt->comment == "brain region" && treeIt->on)
+		{
+			double distance;
+			V3DLONG nodeID = thisRenderer->findNearestNeuronNode_WinXY(clickX, clickY, &*treeIt, distance);
+			distRegionNameMap.insert({ distance, treeIt->name.toStdString() });
+		}
+	}
+
+	if (!distRegionNameMap.empty())
+	{
+		cout << distRegionNameMap.begin()->second << " " << distRegionNameMap.begin()->first << endl;
+		
+		if (distRegionNameMap.begin()->first <= 1)
+		{
+			V3DPluginArgList pluginInputList, pluginOutputList;
+			V3DPluginArgItem dummyInput, inputParam, dummyOutput;
+			vector<char*> pluginInputArgList;
+			vector<char*> pluginOutputArgList;
+			dummyInput.type = "dummy";
+			dummyInput.p = (void*)(&pluginInputArgList);
+			pluginInputList.push_back(dummyInput);
+			
+			inputParam.type = QString::fromStdString(distRegionNameMap.begin()->second);
+			inputParam.p = (void*)(&pluginInputArgList);
+			pluginInputList.push_back(inputParam);		
+
+			dummyOutput.type = "dummy";
+			dummyOutput.p = (void*)(&pluginOutputArgList);
+			XFormWidget* curXWidget = v3dr_getXWidget(_idep);
+			curXWidget->getMainControlWindow()->pluginLoader->callPluginFunc("BrainAtlas", "hideFromLeftClick", pluginInputList, pluginOutputList);
+		}
 	}
 }
 

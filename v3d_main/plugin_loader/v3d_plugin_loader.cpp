@@ -1057,12 +1057,24 @@ bool V3d_PluginLoader::setSWC(v3dhandle image_window, NeuronTree & nt)
 	return false;
 }
 
+void V3d_PluginLoader::setBrainAtlasStatus(V3dR_MainWindow* window, bool on_off)
+{
+	V3dR_GLWidget* thisWidget = window->getGLWidget();
+	thisWidget->brainAtlasStatus = on_off;
+}
+
 int V3d_PluginLoader::setSWC_noDecompose(V3dR_MainWindow* window, const char* fileName)
 {
 	if (v3d_mainwindow)
 	{
 		return v3d_mainwindow->setSWC_noDecompose(window, fileName);
 	}
+	return -1;
+}
+
+int V3d_PluginLoader::addRegion_brainAtlas(V3dR_MainWindow* window, const NeuronTree& region)
+{
+	if (v3d_mainwindow) return v3d_mainwindow->addRegion_brainAtlas(window, region);
 	return -1;
 }
 

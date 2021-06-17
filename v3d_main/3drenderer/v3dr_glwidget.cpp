@@ -709,39 +709,52 @@ void V3dR_GLWidget::brainAtlasMouseClick(int clickX, int clickY)
 	Renderer_gl1* thisRenderer = static_cast<Renderer_gl1*>(this->getRenderer());
 	bool recon2Region = false;
 	map<double, string> distRegionNameMap;
+	map<double, string> distRegSWCmap;
 	for (QList<NeuronTree>::iterator treeIt = thisRenderer->listNeuronTree.begin(); treeIt != thisRenderer->listNeuronTree.end(); ++treeIt)
 	{
 		if (treeIt->comment == "brain region" && treeIt->on)
 		{
 			double distance;
 			V3DLONG nodeID = thisRenderer->findNearestNeuronNode_WinXY(clickX, clickY, &*treeIt, distance);
-			distRegionNameMap.insert({ distance, treeIt->name.toStdString() });
+			if (distance <= 3) distRegionNameMap.insert({ distance, treeIt->name.toStdString() });
+		}
+		else if (treeIt->file.contains(".swc") && treeIt->on)
+		{
+			double distance;
+			V3DLONG nodeID = thisRenderer->findNearestNeuronNode_WinXY(clickX, clickY, &*treeIt, distance);
+			const NeuronSWC& node = treeIt->listNeuron.at(nodeID);
+			string nodeCoordKey = to_string(node.x) + "_" + to_string(node.y) + "_" + to_string(node.z);
+			if (distance <= 3) distRegSWCmap.insert({ distance, nodeCoordKey });
 		}
 	}
 
-	if (!distRegionNameMap.empty())
-	{
-		cout << distRegionNameMap.begin()->second << " " << distRegionNameMap.begin()->first << endl;
-		
-		if (distRegionNameMap.begin()->first <= 1)
-		{
-			V3DPluginArgList pluginInputList, pluginOutputList;
-			V3DPluginArgItem dummyInput, inputParam, dummyOutput;
-			vector<char*> pluginInputArgList;
-			vector<char*> pluginOutputArgList;
-			dummyInput.type = "dummy";
-			dummyInput.p = (void*)(&pluginInputArgList);
-			pluginInputList.push_back(dummyInput);
-			
-			inputParam.type = QString::fromStdString(distRegionNameMap.begin()->second);
-			inputParam.p = (void*)(&pluginInputArgList);
-			pluginInputList.push_back(inputParam);		
+	V3DPluginArgList pluginInputList, pluginOutputList;
+	V3DPluginArgItem dummyInput, inputParam, dummyOutput;
+	vector<char*> pluginInputArgList;
+	vector<char*> pluginOutputArgList;
+	dummyInput.type = "dummy";
+	dummyInput.p = (void*)(&pluginInputArgList);
+	pluginInputList.push_back(dummyInput);
+	XFormWidget* curXWidget = v3dr_getXWidget(_idep);
 
-			dummyOutput.type = "dummy";
-			dummyOutput.p = (void*)(&pluginOutputArgList);
-			XFormWidget* curXWidget = v3dr_getXWidget(_idep);
-			curXWidget->getMainControlWindow()->pluginLoader->callPluginFunc("BrainAtlas", "hideFromLeftClick", pluginInputList, pluginOutputList);
-		}
+	if (distRegionNameMap.empty() && distRegSWCmap.empty()) return;
+	
+	if (!distRegionNameMap.empty() && distRegSWCmap.empty()) distRegSWCmap.insert({ 10000, "noSWCInTheRange" });
+	else if (distRegionNameMap.empty() && !distRegSWCmap.empty()) distRegionNameMap.insert({ 10000, "noRegionInTheRange" });
+	
+	if (distRegionNameMap.begin()->first <= distRegSWCmap.begin()->first)
+	{
+		inputParam.type = QString::fromStdString(distRegionNameMap.begin()->second);
+		inputParam.p = (void*)(&pluginInputArgList);
+		pluginInputList.push_back(inputParam);
+		curXWidget->getMainControlWindow()->pluginLoader->callPluginFunc("BrainAtlas", "hideFromLeftClick", pluginInputList, pluginOutputList);
+	}
+	else
+	{
+		inputParam.type = QString::fromStdString(distRegSWCmap.begin()->second);
+		inputParam.p = (void*)(&pluginInputArgList);
+		pluginInputList.push_back(inputParam);
+		curXWidget->getMainControlWindow()->pluginLoader->callPluginFunc("BrainAtlas", "scanInvolvedRegions", pluginInputList, pluginOutputList);
 	}
 }
 

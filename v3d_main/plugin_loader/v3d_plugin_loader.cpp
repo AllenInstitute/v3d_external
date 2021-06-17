@@ -752,7 +752,8 @@ bool V3d_PluginLoader::callPluginFunc(const QString &plugin_name,
 	Q_ASSERT(idx>=0 && idx<pluginList.size());
 	QPluginLoader *loader = pluginList.at(idx);
 
-	loader->unload(); ///
+	//loader->unload(); // Why unload when the plugin function is about to be called?? MK, June, 2021
+
     QObject *plugin = loader->instance();
     if (! plugin)
     {

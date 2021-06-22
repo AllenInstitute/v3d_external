@@ -1056,6 +1056,15 @@ void V3dR_GLWidget::handleKeyPressEvent(QKeyEvent * e)  //090428 RZC: make publi
 			if (IS_CTRL_MODIFIER)
 		    {
 		    	reloadData();
+				if (this->brainAtlasStatus)
+				{
+					V3DPluginArgList pluginInputList, pluginOutputList;
+					V3DPluginArgItem dummyInput, inputParam, dummyOutput;
+					vector<char*> pluginInputArgList;
+					vector<char*> pluginOutputArgList;
+					XFormWidget* curXWidget = v3dr_getXWidget(_idep);
+					curXWidget->getMainControlWindow()->pluginLoader->callPluginFunc("BrainAtlas", "refresh", pluginInputList, pluginOutputList);
+				}
 			}
             else
             {
@@ -3389,27 +3398,6 @@ void V3dR_GLWidget::setVoxSize()
 	voxSettings.setValue("z", this->setVoxDlgPtr->doubleSpinBox_3->value());
 
 	renderer->paint();
-}
-
-void V3dR_GLWidget::callUpBrainAtlas()
-{
-	if (renderer)
-	{
-		renderer->editinput = 13;
-		renderer->drawEditInfo();
-		Renderer_gl1* rendererGL1 = static_cast<Renderer_gl1*>(this->getRenderer());
-		cout << "test1" << endl;
-
-		QPluginLoader* loader = new QPluginLoader("plugins/BrainAtlas/BrainAtlas.dll");
-		if (!loader) v3d_msg("BrainAtlas module not found. Do nothing.");
-		cout << "test2" << endl;
-
-		XFormWidget* curXWidget = v3dr_getXWidget(_idep);
-		cout << "test3" << endl;
-		V3d_PluginLoader mypluginloader(curXWidget->getMainControlWindow()); 
-		cout << "test4" << endl;
-		mypluginloader.runPlugin(loader, "menu1");
-	}
 }
 
 void V3dR_GLWidget::enableShowAxes(bool s)

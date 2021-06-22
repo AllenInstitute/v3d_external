@@ -438,7 +438,6 @@ public slots:
     virtual void callGDTracing();
 
 	// Brain atlas app, MK, July 2019
-	virtual void callUpBrainAtlas();
     virtual void toggleEditMode();
     virtual void setEditMode();
     virtual void updateColorMode(int mode);

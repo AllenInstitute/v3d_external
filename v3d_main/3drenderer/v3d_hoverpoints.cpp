@@ -318,7 +318,7 @@ void HoverPoints::movePoint(int index, const QPointF &point)
 
 void HoverPoints::firePointChange()
 {
-//    printf("HoverPoints::firePointChange(), current=%d\n", m_currentIndex);
+    //printf("HoverPoints::firePointChange(), current=%d\n", m_currentIndex);
 
     if (m_sortType != NoSort
     		&& (m_points.size()>1)) //110721
